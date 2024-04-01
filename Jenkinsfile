@@ -23,6 +23,13 @@ pipeline {
   }
 
   stages {
+    stage('Hello') {
+      steps {
+        script {
+          sh "echo 'Hello World'"
+        }
+      }
+    }
     stage('Clone Repo') {
       steps {
         script {
