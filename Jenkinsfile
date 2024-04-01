@@ -40,10 +40,17 @@ pipeline {
         }
       }
     }
+    stage('Setup kubeconfig') {
+      steps {
+        withCredentials([text(credentialsId: 'kubernetes-token', variable: 'kubernetes-token')]) {
+          sh "sudo cp \${kubernetes-token} ${WORKSPACE}/kubernetes-token"
+        }
+      }
+    }
     stage('Deploy') {
       steps {
         withKubeConfig([credentialsId: 'user1', serverUrl: '']) {
-          sh "kubectl apply -f ${JOB_YAML}"
+          sh "kubectl apply -f ${JOB_YAML} --kubeconfig ${WORKSPACE}/kubernetes-token"
         }
       }
     }
