@@ -25,10 +25,12 @@ pipeline {
   stages {
     stage('Clone Repo') {
       steps {
-        git credentialsId: 'jenkins-user-github', url 'https://github.com/Marcusk19/quay-performance-scripts.git'
-        sh "ls -lart ./*"
-        sh "git branch -a"
-        sh "git checkout pipeline"
+        script {
+          git credentialsId: 'jenkins-user-github', url 'https://github.com/Marcusk19/quay-performance-scripts.git'
+            sh "ls -lart ./*"
+            sh "git branch -a"
+            sh "git checkout pipeline"
+        }
       }
     }
     stage('Deploy') {
