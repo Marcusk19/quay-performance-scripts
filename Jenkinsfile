@@ -36,7 +36,7 @@ pipeline {
     stage('Deploy') {
       steps {
         script {
-          sh "kubectl apply -f ${JOB_YAML}"
+          sh "kubectl config view"
         }
       }
     }
