@@ -11,6 +11,10 @@ terraform {
       source = "hashicorp/cloudinit"
       version = "2.3.2"
     }
+    acme = {
+      source = "vancluever/acme"
+      version = "~> 2.5.3"
+    }
   }
 }
 
@@ -96,4 +100,11 @@ data "template_file" "quay_template" {
 resource "local_file" "quay_deployment" {
   content = data.template_file.quay_template.rendered
   filename = "${var.prefix}_quay_deployment.yaml"
+}
+
+resource "null_resource" "kubectl_apply" {
+  depends_on = [local_file.quay_deployment]
+  provisioner "local-exec" {
+    command = "kubectl apply -f ${local_file.quay_deployment.filename}"
+  }
 }

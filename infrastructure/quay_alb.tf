@@ -99,3 +99,46 @@ resource "aws_alb_target_group" "quay_alb_metrics_target_group" {
 }
 
 /* TODO: Add IPs of ELB automatically to the target group */
+#
+data "aws_resourcegroupstaggingapi_resources" "quay_elb" {
+  resource_type_filters = ["elasticloadbalancing:loadbalancer"]
+  depends_on = [ null_resource.kubectl_apply ]
+  tag_filter {
+    key = "kubernetes.io/service-name"
+    values = ["${var.prefix}-quay/${var.prefix}-quay-lb"]
+  }
+}
+
+# Save randomly generated name of quay ELB
+locals {
+  quay_elb_name = split("/", data.aws_resourcegroupstaggingapi_resources.quay_elb.resource_tag_mapping_list[0].resource_arn)[1] 
+}
+# Use ELB name to find network interfaces
+data "aws_network_interfaces" "quay_elb_nics" {
+  depends_on = [ null_resource.kubectl_apply ]
+  filter {
+    name = "description"
+    values = ["ELB ${local.quay_elb_name}"]
+  }
+}
+
+data "aws_network_interface" "quay_elb_nics" {
+  depends_on = [ null_resource.kubectl_apply ]
+  count = var.run_alb_attachment ? length(data.aws_network_interfaces.quay_elb_nics.ids) : 0
+  id = data.aws_network_interfaces.quay_elb_nics.ids[count.index]
+  # for_each = toset(data.aws_network_interfaces.quay_elb_nics.ids)
+  # id = each.value
+}
+
+# Want to attach each private ip to the target group for https
+resource "aws_lb_target_group_attachment" "quay_lb_https_attachment" {
+  depends_on = [ null_resource.kubectl_apply, data.aws_network_interface.quay_elb_nics]
+  # for_each = {
+  #   for k, v in data.aws_network_interface.quay_elb_nics :
+  #   v.id => v
+  # }
+  count = var.run_alb_attachment ? length(data.aws_network_interface.quay_elb_nics) : 0
+  target_group_arn = aws_alb_target_group.quay_alb_https_target_group.arn
+  availability_zone = "all"
+  target_id = data.aws_network_interface.quay_elb_nics[count.index].private_ip
+}

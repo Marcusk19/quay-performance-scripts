@@ -159,3 +159,15 @@ variable "clair_db_version" {
   type = string
   default = "14.2"
 }
+
+variable "email_address" {
+  description = "email address for letsencrypt"
+  type = string
+  default = "mkok@redhat.com"
+}
+
+variable "run_alb_attachment" {
+  description = "attach elb ips to quay alb"
+  type = bool
+  default = false
+}
