@@ -35,7 +35,7 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        script {
+        withKubeConfig([credentialsId: 'user1', serverUrl: '']) {
           sh "kubectl apply -f ${JOB_YAML}"
         }
       }
