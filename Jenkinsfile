@@ -31,20 +31,11 @@ pipeline {
         }
       }
     }
-    stage('Setup kubeconfig') {
-      steps {
-        withCredentials([string(credentialsId: 'kubernetes-token', variable: 'K8STOKEN')]) {
-          sh '''
-            echo "$K8STOKEN" > "$WORKSPACE"/kubernetes-token
-          '''
-        }
-      }
-    }
     stage('Deploy') {
       steps {
         withKubeConfig([credentialsId: 'kubeconfig-sa']) {
           sh '''
-            kubectl apply -f "$JOB_YAML"  --kubeconfig "$WORKSPACE"/kubernetes-token
+            kubectl apply -f "$JOB_YAML" 
           '''
         }
       }
