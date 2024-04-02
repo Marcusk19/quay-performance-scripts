@@ -20,15 +20,6 @@ pipeline {
     JOB_YAML = "quay-performance-scripts/deploy/job.yaml"
     REPO_URL = "https://github.com/Marcusk19/quay-performance-scripts.git"
   }
-
-  stages {
-    stage('Hello') {
-      steps {
-        script {
-          sh "echo 'Hello World'"
-        }
-      }
-    }
     stage('Clone Repo') {
       steps {
         script {
@@ -50,11 +41,9 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        withKubeConfig([credentialsId: 'user1', serverUrl: '']) {
-          sh '''
-            kubectl apply -f "$JOB_YAML"  --kubeconfig "$WORKSPACE"/kubernetes-token
-          '''
-        }
+        sh '''
+          kubectl apply -f "$JOB_YAML"  --kubeconfig "$WORKSPACE"/kubernetes-token
+        '''
       }
     }
   }
