@@ -43,7 +43,7 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: 'kubernetes-token', variable: 'K8STOKEN')]) {
           sh '''
-            cp "$K8STOKEN" "$WORKSPACE"/kubernetes-token
+            echo "$K8STOKEN" > "$WORKSPACE"/kubernetes-token
           '''
         }
       }
