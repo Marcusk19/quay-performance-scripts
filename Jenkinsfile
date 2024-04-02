@@ -42,7 +42,7 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        script {
+        withKubeConfig([credentialsId: 'kubeconfig-sa']) {
           sh '''
             kubectl apply -f "$JOB_YAML"  --kubeconfig "$WORKSPACE"/kubernetes-token
           '''
