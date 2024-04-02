@@ -20,6 +20,7 @@ pipeline {
     JOB_YAML = "quay-performance-scripts/deploy/job.yaml"
     REPO_URL = "https://github.com/Marcusk19/quay-performance-scripts.git"
   }
+  stages {
     stage('Clone Repo') {
       steps {
         script {
