@@ -41,9 +41,11 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        sh '''
-          kubectl apply -f "$JOB_YAML"  --kubeconfig "$WORKSPACE"/kubernetes-token
-        '''
+        script {
+          sh '''
+            kubectl apply -f "$JOB_YAML"  --kubeconfig "$WORKSPACE"/kubernetes-token
+          '''
+        }
       }
     }
   }
