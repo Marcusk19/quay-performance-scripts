@@ -28,6 +28,7 @@ pipeline {
             sh "git branch -a"
             sh "git checkout pipeline"
             sh "ls -lart ./*"
+            sh "pwd"
         }
       }
     }
