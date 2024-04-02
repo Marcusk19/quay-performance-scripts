@@ -17,7 +17,7 @@ pipeline {
     TEST_NAMESPACE = ''
     TEST_PHASES = 'LOAD,RUN,DELETE'
 
-    JOB_YAML = "${WORKSPACE}/quay-performance-scripts/deploy/job.yaml"
+    JOB_YAML = "${WORKSPACE}/deploy/job.yaml"
     REPO_URL = "https://github.com/Marcusk19/quay-performance-scripts.git"
   }
   stages {
