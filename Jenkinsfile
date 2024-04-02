@@ -42,7 +42,7 @@ pipeline {
     stage('Setup kubeconfig') {
       steps {
         withCredentials([string(credentialsId: 'kubernetes-token', variable: 'kubernetes-token')]) {
-          sh "sudo cp \${kubernetes-token} ${WORKSPACE}/kubernetes-token"
+          sh "cp \${kubernetes-token} ${WORKSPACE}/kubernetes-token"
         }
       }
     }
