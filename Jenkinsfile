@@ -17,7 +17,7 @@ pipeline {
     TEST_NAMESPACE = ''
     TEST_PHASES = 'LOAD,RUN,DELETE'
 
-    JOB_YAML = "quay-performance-scripts/deploy/job.yaml"
+    JOB_YAML = "${WORKSPACE}/quay-performance-scripts/deploy/job.yaml"
     REPO_URL = "https://github.com/Marcusk19/quay-performance-scripts.git"
   }
   stages {
@@ -25,9 +25,9 @@ pipeline {
       steps {
         script {
           git credentialsId: 'jenkins-user-github', url: 'https://github.com/Marcusk19/quay-performance-scripts.git'
-            sh "ls -lart ./*"
             sh "git branch -a"
             sh "git checkout pipeline"
+            sh "ls -lart ./*"
         }
       }
     }
