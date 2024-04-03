@@ -66,7 +66,7 @@ spec:
     spec:
       containers:
       - name: python
-        image: quay.io/marckok/quay-load:latest
+        image: quay.io/vchalla/quay-load:latest
         securityContext:
           privileged: true
         env:
