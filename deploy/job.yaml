@@ -92,7 +92,7 @@ spec:
           - name: PUSH_PULL_ES_INDEX
             value: 'quay_push_pull'
           - name: PUSH_PULL_NUMBERS
-            value: 50
+            value: "50"
           - name: TARGET_HIT_SIZE
             value: '1000'
           - name: CONCURRENCY
