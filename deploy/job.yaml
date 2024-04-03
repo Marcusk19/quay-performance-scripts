@@ -73,31 +73,34 @@ spec:
           - name: QUAY_HOST
             value: mkok-dev.quaydev.org
           - name: QUAY_OAUTH_TOKEN
-            value: ${QUAY_OAUTH_TOKEN}
+            valueFrom:
+              secretKeyRef:
+                name: quay-oauth
+                key: oauth_token
           - name: QUAY_ORG
-            value: ${QUAY_ORG }
+            value: 'performance-test'
           - name: ES_HOST
-            value: ${ES_HOST}
+            value: 'mkok-dev-quay-es-elastic-system.apps.quaydev-rosa.cv2k.p1.openshiftapps.com'
           - name: ES_PORT
-            value: ${ES_PORT}
+            value: '80'
           - name: PYTHONUNBUFFERED
-            value: ${PYTHONUNBUFFERED}
+            value: '0'
           - name: ES_INDEX
-            value: ${ES_INDEX}
+            value: 'quay'
           - name: PUSH_PULL_IMAGE
-            value: ${PUSH_PULL_IMAGE}
+            value: 'quay.io/marckok/quay'
           - name: PUSH_PULL_ES_INDEX
-            value: ${PUSH_PULL_ES_INDEX}
-          # - name: PUSH_PULL_NUMBERS
-          #   value: ${PUSH_PULL_NUMBERS}
+            value: 'quay_push_pull'
+          - name: PUSH_PULL_NUMBERS
+            value: 50
           - name: TARGET_HIT_SIZE
-            value: ${TARGET_HIT_SIZE}
+            value: '1000'
           - name: CONCURRENCY
-            value: ${CONCURRENCY}
+            value: '10'
           - name: TEST_NAMESPACE
-            value: ${TEST_NAMESPACE}
+            value: 'performanc-test'
           - name: TEST_PHASES
-            value: ${TEST_PHASES}
+            value: 'LOAD,RUN,DELETE'
         resources:
           requests:
             cpu: "1"
