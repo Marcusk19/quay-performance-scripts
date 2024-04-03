@@ -3,18 +3,19 @@ pipeline {
 
   environment {
     QUAY_HOST = 'mkok-dev.quaydev.org'
-    QUAY_OAUTH_TOKEN = ''
-    QUAY_ORG = ''
-    ES_HOST = ''
-    ES_PORT = ''
+    QUAY_OAUTH_TOKEN = ${QUAY_OAUTH}
+    QUAY_ORG = 'performance-test'
+    ES_HOST = 'mkok-dev-quay-es-elastic-system.apps.quaydev-rosa.cv2k.p1.openshiftapps.com 
+'
+    ES_PORT = '80'
     PYTHONUNBUFFERED = ''
-    ES_INDEX = ''
-    PUSH_PULL_IMAGE = ''
-    PUSH_PULL_ES_INDEX = ''
-    PUSH_PULL_NUMBERS = ''
-    TARGET_HIT_SIZE = ''
-    CONCURRENCY = ''
-    TEST_NAMESPACE = ''
+    ES_INDEX = 'quay'
+    PUSH_PULL_IMAGE = 'quay.io/marckok/quay'
+    PUSH_PULL_ES_INDEX = 'quay_push_pull'
+    PUSH_PULL_NUMBERS = '10'
+    TARGET_HIT_SIZE = '1000'
+    CONCURRENCY = '10'
+    TEST_NAMESPACE = 'performance-test'
     TEST_PHASES = 'LOAD,RUN,DELETE'
 
     JOB_YAML = "${WORKSPACE}/deploy/job.yaml"
