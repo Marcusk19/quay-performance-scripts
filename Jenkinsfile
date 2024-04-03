@@ -11,7 +11,7 @@ pipeline {
     ES_INDEX = 'quay'
     PUSH_PULL_IMAGE = 'quay.io/marckok/quay'
     PUSH_PULL_ES_INDEX = 'quay_push_pull'
-    PUSH_PULL_NUMBERS = '10'
+    PUSH_PULL_NUMBERS = 50
     TARGET_HIT_SIZE = '1000'
     CONCURRENCY = '10'
     TEST_NAMESPACE = 'performance-test'

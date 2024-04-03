@@ -75,29 +75,29 @@ spec:
           - name: QUAY_OAUTH_TOKEN
             value: ${QUAY_OAUTH_TOKEN}
           - name: QUAY_ORG
-            value: ${ QUAY_ORG }
+            value: ${QUAY_ORG }
           - name: ES_HOST
-            value: ${ ES_HOST }
+            value: ${ES_HOST}
           - name: ES_PORT
-            value: ${ ES_PORT }
+            value: ${ES_PORT}
           - name: PYTHONUNBUFFERED
-            value: ${ PYTHONUNBUFFERED }
+            value: ${PYTHONUNBUFFERED}
           - name: ES_INDEX
-            value: ${ ES_INDEX }
+            value: ${ES_INDEX}
           - name: PUSH_PULL_IMAGE
-            value: ${ PUSH_PULL_IMAGE }
+            value: ${PUSH_PULL_IMAGE}
           - name: PUSH_PULL_ES_INDEX
-            value: ${ PUSH_PULL_ES_INDEX }
-          - name: PUSH_PULL_NUMBERS
-            value: ${ PUSH_PULL_NUMBERS }
+            value: ${PUSH_PULL_ES_INDEX}
+          # - name: PUSH_PULL_NUMBERS
+          #   value: ${PUSH_PULL_NUMBERS}
           - name: TARGET_HIT_SIZE
-            value: ${ TARGET_HIT_SIZE }
+            value: ${TARGET_HIT_SIZE}
           - name: CONCURRENCY
-            value: ${ CONCURRENCY }
+            value: ${CONCURRENCY}
           - name: TEST_NAMESPACE
-            value: ${ TEST_NAMESPACE }
+            value: ${TEST_NAMESPACE}
           - name: TEST_PHASES
-            value: ${ TEST_PHASES }
+            value: ${TEST_PHASES}
         resources:
           requests:
             cpu: "1"
