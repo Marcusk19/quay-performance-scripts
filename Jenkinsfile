@@ -27,6 +27,7 @@ pipeline {
           git credentialsId: 'jenkins-user-github', url: 'https://github.com/Marcusk19/quay-performance-scripts.git'
             sh "git branch -a"
             sh "git checkout pipeline"
+            sh "git pull"
             sh "ls -lart ./*"
             sh "pwd"
         }
