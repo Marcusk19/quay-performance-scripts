@@ -5,8 +5,7 @@ pipeline {
     QUAY_HOST = 'mkok-dev.quaydev.org'
     QUAY_OAUTH_TOKEN = ${QUAY_OAUTH}
     QUAY_ORG = 'performance-test'
-    ES_HOST = 'mkok-dev-quay-es-elastic-system.apps.quaydev-rosa.cv2k.p1.openshiftapps.com 
-'
+    ES_HOST = 'mkok-dev-quay-es-elastic-system.apps.quaydev-rosa.cv2k.p1.openshiftapps.com'
     ES_PORT = '80'
     PYTHONUNBUFFERED = ''
     ES_INDEX = 'quay'
