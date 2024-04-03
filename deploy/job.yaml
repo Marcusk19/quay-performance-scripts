@@ -80,7 +80,10 @@ spec:
           - name: QUAY_ORG
             value: 'performance-test'
           - name: ES_HOST
-            value: 'mkok-dev-quay-es-elastic-system.apps.quaydev-rosa.cv2k.p1.openshiftapps.com'
+            valueFrom:
+              secretKeyRef:
+                name: elastic-host
+                key: elastic_url
           - name: ES_PORT
             value: '80'
           - name: PYTHONUNBUFFERED
@@ -98,7 +101,7 @@ spec:
           - name: CONCURRENCY
             value: '10'
           - name: TEST_NAMESPACE
-            value: 'performanc-test'
+            value: 'performance-test'
           - name: TEST_PHASES
             value: 'LOAD,RUN,DELETE'
         resources:
