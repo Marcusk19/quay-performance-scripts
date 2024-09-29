@@ -494,7 +494,7 @@ def create_test_pull_job(namespace, quay_host, username, password, concurrency,
     )
         
     template = client.V1PodTemplateSpec(
-        metadata=client.V1ObjectMeta(labels={'quay-perf-test-component-pull': 'executor-'+"-".join(username.split("_"))}),
+        metadata=client.V1ObjectMeta(labels={'quay-perf-test-component-pull': 'executor-'+"-".join(username.split("_")).replace("|","")}),
         spec=client.V1PodSpec(restart_policy='Never', containers=[container])
     )
 
@@ -504,7 +504,7 @@ def create_test_pull_job(namespace, quay_host, username, password, concurrency,
     job = client.V1Job(
         api_version="batch/v1",
         kind="Job",
-        metadata=client.V1ObjectMeta(name="test-registry-pull"+"-".join(username.split("_"))),
+        metadata=client.V1ObjectMeta(name="test-registry-pull"+"-".join(username.split("_")).replace("|","")),
         spec=spec
     )
 
@@ -534,6 +534,9 @@ def parallel_process(user, **kwargs):
     """
     common_args = kwargs
     # Container Operations
+    
+    logging.info('*** parallel_process user: %s', user)
+    
     redis_client.delete('tags_to_push'+"-".join(user.split("_")))  # avoid stale data
     redis_client.rpush('tags_to_push'+"-".join(user.split("_")), *common_args['tags'])
     logging.info('Queued %s tags to be created' % len(common_args['tags']))
@@ -571,7 +574,7 @@ def parallel_process(user, **kwargs):
     while True:
 
         # Check Job Status
-        job_name = 'test-registry-pull'+"-".join(user.split("_"))
+        job_name = 'test-registry-pull'+"-".join(user.split("_")).replace("|","")
         job_api = client.BatchV1Api()
         resp = job_api.read_namespaced_job_status(name=job_name, namespace=common_args['namespace'])
         completion_time = resp.status.completion_time
@@ -662,9 +665,11 @@ if __name__ == '__main__':
     if len(explicit_tags) > 0:
         tags = []
         logging.info("explicit tags: %s", explicit_tags)
-        for tag in explicit_tags:
-            tags.append(tag)
-
+        for i in range(5000):
+            for tag in explicit_tags:
+                tags.append(tag)
+    logging.info("final tags num: %s", len(tags))
+    
     print_header(
         'Running Quay Scale & Performance Tests',
         date=datetime.datetime.utcnow().isoformat(),
@@ -706,6 +711,7 @@ if __name__ == '__main__':
         batch_args['password'] = os.environ.get('QUAY_PASSWORD')
         start_time = datetime.datetime.utcnow()
         logging.info(f"Starting image push/pulls (UTC): {start_time.strftime('%Y-%m-%d %H:%M:%S.%f')}")
+        logging.info("^^^PULL user: %s",[username])
         batch_process([username], batch_args)
         end_time = datetime.datetime.utcnow()
         logging.info(f"Ending image push/pulls (UTC): {end_time.strftime('%Y-%m-%d %H:%M:%S.%f')}")
